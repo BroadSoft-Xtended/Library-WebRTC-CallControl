@@ -1,0 +1,1 @@
+module.exports = {view: require('./lib/views/callcontrol'), model: require('./lib/models/callcontrol')};
