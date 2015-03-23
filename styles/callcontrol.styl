@@ -90,18 +90,16 @@
       top auto
       left auto
 
-  .view-audioOnly
-    .callControl
-      top 45px
+  .callControl.audioOnly
+    top 45px
 
-  .enableCallControl.callcontrol-shown .callControl
+  .callControl.enableCallControl.callcontrol-shown
     {fadeInPopup}
     
-  .client.calling .call,
-  .client:not(.connected) .call,
-  .enableCallControl:not(.callcontrol-shown) .callControl
+  .callControl.calling .call,
+  .callControl:not(.connected) .call,
+  .callControl.enableCallControl:not(.callcontrol-shown)
     {fadeOut}
     
-  .enableCallControl.connected .call,
-  .enableCallControl .callControl
+  .callControl.enableCallControl.connected .call
     {fadeIn}

@@ -11,6 +11,18 @@ describe('callcontrol', function() {
         testUA.mockWebRTC();
     });
 
+    it('with audioOnly', function() {
+        configuration.view = 'audioOnly';
+        expect(callcontrol.classes.indexOf('audioOnly')).toNotEqual(-1);
+    });
+    it('callcontrol show and hide', function() {
+        configuration.enableCallControl = true;
+        eventbus.toggleView(core.constants.VIEW_CALLCONTROL);
+        expect(callcontrol.classes.indexOf('callcontrol-shown')).toNotEqual(-1);
+        testUA.isVisible(callcontrolview.callControl, true);
+        eventbus.toggleView(core.constants.VIEW_CALLCONTROL);
+        testUA.isVisible(callcontrolview.callControl, false);
+    });
     it('call if enter pressed on destination input', function() {
         var called = false;
         testUA.connect();
@@ -161,6 +173,7 @@ function setupModels() {
     testUA.createCore('configuration');
     testUA.createCore('sipstack');
     createCallControl();
+    eventbus = bdsft_client_instances.eventbus_test;
 }
 
 function createCallControl() {
