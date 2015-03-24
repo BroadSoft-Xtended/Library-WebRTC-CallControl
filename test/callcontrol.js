@@ -166,6 +166,83 @@ describe('callcontrol', function() {
 
         testUA.startCall();
         expect(sentTones).toEqual(",,123132");
+        testUA.endCall();
+    });
+    it('validateDestination', function() {
+        configuration.allowOutside = true;
+        expect(callcontrol.validateDestination("1000")).toEqual("sip:1000@broadsoftlabs.com");
+        expect(callcontrol.validateDestination("1000@webrtc")).toEqual("sip:1000@webrtc.broadsoftlabs.com");
+        expect(callcontrol.validateDestination("1000@webrtc.domain.to")).toEqual("sip:1000@webrtc.domain.to");
+        expect(callcontrol.validateDestination("1000@domain.to")).toEqual("sip:1000@domain.to");
+    });
+    it('validateDestination with allowOutside = false', function() {
+        configuration.allowOutside = false;
+        expect(callcontrol.validateDestination("1000")).toEqual(false);
+        expect(callcontrol.validateDestination("1000@webrtc")).toEqual(false);
+        expect(callcontrol.validateDestination("1000@webrtc.broadsoftlabs.com")).toEqual("sip:1000@webrtc.broadsoftlabs.com");
+        expect(callcontrol.validateDestination("1000@broadsoftlabs.com")).toEqual("sip:1000@broadsoftlabs.com");
+        expect(callcontrol.validateDestination("1000@anotherdomain.to")).toEqual(false);
+    });
+    it('hangup on failed', function() {
+        sipstack.ua.isConnected = function() {
+            return true;
+        }
+        testUA.connect();
+        callcontrolview.show();
+        testUA.failCall();
+        expect(sipstack.getCallState()).toEqual("connected");
+        testUA.isVisible(callcontrolview.call, true);
+    });
+    it('hangup on calling', function() {
+        sipstack.ua.isConnected = function() {
+            return true;
+        }
+        callcontrolview.show();
+        callcontrol.callUri("1000@webrtc.domain.to");
+        testUA.newCall();
+        expect(sipstack.getCallState()).toEqual("calling");
+        testUA.isVisible(callcontrolview.call, false);
+        testUA.disconnect();
+    });
+    it('destination configuration and enableConnectLocalMedia = false', function() {
+        var destinationCalled = '';
+        configuration.destination = '12345';
+        configuration.enableConnectLocalMedia = false;
+        createCallControl();
+        callcontrol.callUri = function(destination) {
+            destinationCalled = destination;
+        };
+        testUA.connectAndStartCall();
+        sipstack.ua.isConnected = function() {
+            return true;
+        };
+        expect(destinationCalled).toEqual('12345');
+        testUA.endCall();
+
+        // trigger connect again to verify destination is only called once
+        destinationCalled = '';
+        testUA.connect();
+        expect(destinationCalled).toEqual('');
+    });
+    it('destination configuration and enableConnectLocalMedia = true', function() {
+        var destinationCalled = '';
+        configuration.destination = '12345';
+        configuration.enableConnectLocalMedia = true;
+        createCallControl();
+        callcontrol.callUri = function(destination) {
+            destinationCalled = destination;
+        };
+        testUA.connectAndStartCall();
+        sipstack.ua.isConnected = function() {
+            return true;
+        };
+        expect(destinationCalled).toEqual('12345');
+        testUA.endCall();
+
+        // trigger connect again to verify destination is only called once
+        destinationCalled = '';
+        testUA.connect();
+        expect(destinationCalled).toEqual('');
     });
 });
 
