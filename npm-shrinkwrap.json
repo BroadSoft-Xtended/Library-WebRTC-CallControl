@@ -110,13 +110,13 @@
       }
     },
     "webrtc-dialpad": {
-      "version": "0.0.0",
-      "from": "webrtc-dialpad@git+ssh://git.broadsoftlabs.net:7922/wrtc/dialpad.git",
-      "resolved": "git+ssh://git.broadsoftlabs.net:7922/wrtc/dialpad.git#4e93254f86106bfc8db04234edd1626d7c645047",
+      "version": "0.0.1",
+      "from": "../../../../../../var/folders/w5/d_jq90111h9g07_m1bwjvnbr0000gp/T/npm-75607-b6e27f06/git-cache-2e264a6fc5a5/e42a59db4d1434b81431a9ac56297ad1da5a421a",
+      "resolved": "git+ssh://git.broadsoftlabs.net:7922/wrtc/dialpad.git#e42a59db4d1434b81431a9ac56297ad1da5a421a",
       "dependencies": {
         "webrtc-core": {
           "version": "0.0.1",
-          "from": "../../../../../../var/folders/w5/d_jq90111h9g07_m1bwjvnbr0000gp/T/npm-50667-aa022200/git-cache-6dc6e654ba90/ad8c7db88eb51d6f7b19e1ee8a7092c5d07a2086",
+          "from": "../../../../../../var/folders/w5/d_jq90111h9g07_m1bwjvnbr0000gp/T/npm-75607-b6e27f06/git-cache-836c31c87494/ad8c7db88eb51d6f7b19e1ee8a7092c5d07a2086",
           "resolved": "git+ssh://git.broadsoftlabs.net:7922/wrtc/webrtc-core.git#ad8c7db88eb51d6f7b19e1ee8a7092c5d07a2086",
           "dependencies": {
             "ejs": {
@@ -182,7 +182,7 @@
             },
             "exsip": {
               "version": "2.0.0",
-              "from": "../../../../../../var/folders/w5/d_jq90111h9g07_m1bwjvnbr0000gp/T/npm-50667-aa022200/git-cache-2511eed8f627/82c58cf6111cfaea761b1a3f43e002c4fbb7916b",
+              "from": "../../../../../../var/folders/w5/d_jq90111h9g07_m1bwjvnbr0000gp/T/npm-75607-b6e27f06/git-cache-fd3e5661c11b/82c58cf6111cfaea761b1a3f43e002c4fbb7916b",
               "resolved": "git://github.com/broadsoftxtended/ExSIP.git#82c58cf6111cfaea761b1a3f43e002c4fbb7916b",
               "dependencies": {
                 "sdp-transform": {
