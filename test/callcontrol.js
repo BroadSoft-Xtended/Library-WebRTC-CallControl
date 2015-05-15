@@ -17,10 +17,10 @@ describe('callcontrol', function() {
     });
     it('callcontrol show and hide', function() {
         configuration.enableCallControl = true;
-        eventbus.toggleView(core.constants.VIEW_CALLCONTROL);
+        callcontrol.visible = true;
         expect(callcontrol.classes.indexOf('callcontrol-shown')).toNotEqual(-1);
         testUA.isVisible(callcontrolview.callControl, true);
-        eventbus.toggleView(core.constants.VIEW_CALLCONTROL);
+        callcontrol.visible = false;
         testUA.isVisible(callcontrolview.callControl, false);
     });
     it('call if enter pressed on destination input', function() {
@@ -188,7 +188,7 @@ describe('callcontrol', function() {
             return true;
         }
         testUA.connect();
-        callcontrolview.show();
+        callcontrol.visible = true;
         testUA.failCall();
         expect(sipstack.getCallState()).toEqual("connected");
         testUA.isVisible(callcontrolview.call, true);
@@ -197,7 +197,7 @@ describe('callcontrol', function() {
         sipstack.ua.isConnected = function() {
             return true;
         }
-        callcontrolview.show();
+        callcontrol.visible = true;
         callcontrol.callUri("1000@webrtc.domain.to");
         testUA.newCall();
         expect(sipstack.getCallState()).toEqual("calling");
