@@ -9,6 +9,7 @@ describe('callcontrol', function() {
         testUA = core.testUA;
         setupModels();
         testUA.mockWebRTC();
+        testUA.setupLocalStorage();
     });
 
     it('with audioOnly', function() {
@@ -256,6 +257,8 @@ function setupModels() {
 function createCallControl() {
     return testUA.createModelAndView('callcontrol', {
         callcontrol: require('../'),
-        dialpad: require('webrtc-dialpad')
+        dialpad: require('webrtc-dialpad'),
+        history: require('webrtc-history'),
+        stats: require('webrtc-stats')
     });
 }
