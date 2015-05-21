@@ -251,7 +251,7 @@ function setupModels() {
     testUA.createCore('configuration');
     testUA.createCore('sipstack');
     createCallControl();
-    eventbus = bdsft_client_instances.eventbus_test;
+    eventbus = bdsft_client_instances.test.eventbus;
 }
 
 function createCallControl() {
