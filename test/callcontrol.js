@@ -7,9 +7,9 @@ describe('callcontrol', function() {
     before(function() {
         core = require('webrtc-core');
         testUA = core.testUA;
+        testUA.setupLocalStorage();
         setupModels();
         testUA.mockWebRTC();
-        testUA.setupLocalStorage();
     });
 
     it('with audioOnly', function() {
