@@ -13,11 +13,11 @@ describe('callcontrol', function() {
     });
 
     it('with audioOnly', function() {
-        configuration.view = 'audioOnly';
+        urlconfig.view = 'audioOnly';
         expect(callcontrol.classes.indexOf('audioOnly')).toNotEqual(-1);
     });
     it('callcontrol show and hide', function() {
-        configuration.enableCallControl = true;
+        callcontrol.enableCallControl = true;
         callcontrol.visible = true;
         expect(callcontrol.classes.indexOf('callcontrol-shown')).toNotEqual(-1);
         testUA.isVisible(callcontrolview.callControl, true);
@@ -75,8 +75,8 @@ describe('callcontrol', function() {
         expect(!called).toExist();
     });
     it('destination:', function() {
-        configuration.enableConnectLocalMedia = true;
-        configuration.allowOutside = true;
+        sipstack.enableConnectLocalMedia = true;
+        callcontrol.allowOutside = true;
         location.search = '?destination=8323303810';
         setupModels();
         var calledDestination = '';
@@ -92,8 +92,8 @@ describe('callcontrol', function() {
         expect(calledDestination).toEqual("sip:8323303810@broadsoftlabs.com");
     });
     it('WEBRTC-35 : destination with dtmf tones:', function() {
-        configuration.enableConnectLocalMedia = true;
-        configuration.allowOutside = true;
+        sipstack.enableConnectLocalMedia = true;
+        callcontrol.allowOutside = true;
         location.search = '?destination=8323303810,,123132';
         setupModels();
         var calledDestination = '',
@@ -121,8 +121,8 @@ describe('callcontrol', function() {
         expect(sentTones).toEqual("", "Should NOT send the dtmf again");
     });
     it('WEBRTC-35 : destination with dtmf tones and #', function() {
-        configuration.enableConnectLocalMedia = true;
-        configuration.allowOutside = true;
+        sipstack.enableConnectLocalMedia = true;
+        callcontrol.allowOutside = true;
         location.search = '?destination=8323303810,,123132%23';
         setupModels();
         var calledDestination = '',
@@ -145,8 +145,8 @@ describe('callcontrol', function() {
         expect(sentTones).toEqual(",,123132#");
     });
     it('WEBRTC-35 : destination with dtmf tones and domain', function() {
-        configuration.enableConnectLocalMedia = true;
-        configuration.allowOutside = true;
+        sipstack.enableConnectLocalMedia = true;
+        callcontrol.allowOutside = true;
         location.search = '?destination=8323303810,,123132@some.domain';
         setupModels();
         var calledDestination = '',
@@ -170,14 +170,14 @@ describe('callcontrol', function() {
         testUA.endCall();
     });
     it('validateDestination', function() {
-        configuration.allowOutside = true;
+        callcontrol.allowOutside = true;
         expect(callcontrol.validateDestination("1000")).toEqual("sip:1000@broadsoftlabs.com");
         expect(callcontrol.validateDestination("1000@webrtc")).toEqual("sip:1000@webrtc.broadsoftlabs.com");
         expect(callcontrol.validateDestination("1000@webrtc.domain.to")).toEqual("sip:1000@webrtc.domain.to");
         expect(callcontrol.validateDestination("1000@domain.to")).toEqual("sip:1000@domain.to");
     });
     it('validateDestination with allowOutside = false', function() {
-        configuration.allowOutside = false;
+        callcontrol.allowOutside = false;
         expect(callcontrol.validateDestination("1000")).toEqual(false);
         expect(callcontrol.validateDestination("1000@webrtc")).toEqual(false);
         expect(callcontrol.validateDestination("1000@webrtc.broadsoftlabs.com")).toEqual("sip:1000@webrtc.broadsoftlabs.com");
@@ -207,8 +207,8 @@ describe('callcontrol', function() {
     });
     it('destination configuration and enableConnectLocalMedia = false', function() {
         var destinationCalled = '';
-        configuration.destination = '12345';
-        configuration.enableConnectLocalMedia = false;
+        urlconfig.destination = '12345';
+        sipstack.enableConnectLocalMedia = false;
         createCallControl();
         callcontrol.callUri = function(destination) {
             destinationCalled = destination;
@@ -227,8 +227,8 @@ describe('callcontrol', function() {
     });
     it('destination configuration and enableConnectLocalMedia = true', function() {
         var destinationCalled = '';
-        configuration.destination = '12345';
-        configuration.enableConnectLocalMedia = true;
+        urlconfig.destination = '12345';
+        sipstack.enableConnectLocalMedia = true;
         createCallControl();
         callcontrol.callUri = function(destination) {
             destinationCalled = destination;
@@ -248,7 +248,7 @@ describe('callcontrol', function() {
 });
 
 function setupModels() {
-    testUA.createCore('configuration');
+    testUA.createCore('urlconfig');
     testUA.createCore('sipstack');
     createCallControl();
     eventbus = bdsft_client_instances.test.eventbus;
