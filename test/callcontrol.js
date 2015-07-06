@@ -20,9 +20,9 @@ describe('callcontrol', function() {
         callcontrol.enableCallControl = true;
         callcontrol.visible = true;
         expect(callcontrol.classes.indexOf('callcontrol-shown')).toNotEqual(-1);
-        testUA.isVisible(callcontrolview.callControl, true);
+        testUA.isVisible(callcontrolview.view.find('.classes:first'), true);
         callcontrol.visible = false;
-        testUA.isVisible(callcontrolview.callControl, false);
+        testUA.isVisible(callcontrolview.view.find('.classes:first'), false);
     });
     it('call if enter pressed on destination input', function() {
         var called = false;
@@ -30,15 +30,15 @@ describe('callcontrol', function() {
         sipstack.ua.isConnected = function() {
             return true;
         };
-        var callUriFun = callcontrol.callUri;
-        callcontrol.callUri = function() {
+        var callFun = callcontrol.call;
+        callcontrol.call = function() {
             called = true;
         };
         var event = core.utils.createEvent("keypress");
         event.keyCode = 13;
         callcontrolview.destination.trigger(event);
         expect(called).toExist();
-        callcontrol.callUri = callUriFun;
+        callcontrol.call = callFun;
     });
     it('call and press enter on destination input', function() {
         var called = false;
@@ -73,6 +73,8 @@ describe('callcontrol', function() {
         called = false;
         callcontrolview.call.trigger("click");
         expect(!called).toExist();
+        sipstack.terminateSessions();
+        testUA.disconnect();
     });
     it('destination:', function() {
         sipstack.enableConnectLocalMedia = true;
@@ -90,6 +92,15 @@ describe('callcontrol', function() {
 
         testUA.connect();
         expect(calledDestination).toEqual("sip:8323303810@broadsoftlabs.com");
+        testUA.disconnect();
+    });
+    it('WRTC-15 : strip non alphanumeric characters from destination', function() {
+        callcontrol.destination = '1234567890˙';
+        expect(callcontrol.destination).toEqual('1234567890');
+
+        testUA.val(callcontrolview.destination, '234567890˙');
+        expect(callcontrolview.destination.val()).toEqual('234567890');
+        expect(callcontrol.destination).toEqual('234567890');
     });
     it('WEBRTC-35 : destination with dtmf tones:', function() {
         sipstack.enableConnectLocalMedia = true;
@@ -119,6 +130,7 @@ describe('callcontrol', function() {
 
         testUA.reconnectCall(session);
         expect(sentTones).toEqual("", "Should NOT send the dtmf again");
+        testUA.disconnect();
     });
     it('WEBRTC-35 : destination with dtmf tones and #', function() {
         sipstack.enableConnectLocalMedia = true;
@@ -143,6 +155,7 @@ describe('callcontrol', function() {
 
         testUA.startCall();
         expect(sentTones).toEqual(",,123132#");
+        testUA.disconnect();
     });
     it('WEBRTC-35 : destination with dtmf tones and domain', function() {
         sipstack.enableConnectLocalMedia = true;
@@ -168,6 +181,7 @@ describe('callcontrol', function() {
         testUA.startCall();
         expect(sentTones).toEqual(",,123132");
         testUA.endCall();
+        testUA.disconnect();
     });
     it('validateDestination', function() {
         callcontrol.allowOutside = true;
@@ -193,13 +207,14 @@ describe('callcontrol', function() {
         testUA.failCall();
         expect(sipstack.getCallState()).toEqual("connected");
         testUA.isVisible(callcontrolview.call, true);
+        testUA.disconnect();
     });
     it('hangup on calling', function() {
         sipstack.ua.isConnected = function() {
             return true;
         }
         callcontrol.visible = true;
-        callcontrol.callUri("1000@webrtc.domain.to");
+        callcontrol.call("1000@webrtc.domain.to");
         testUA.newCall();
         expect(sipstack.getCallState()).toEqual("calling");
         testUA.isVisible(callcontrolview.call, false);
@@ -210,7 +225,7 @@ describe('callcontrol', function() {
         urlconfig.destination = '12345';
         sipstack.enableConnectLocalMedia = false;
         createCallControl();
-        callcontrol.callUri = function(destination) {
+        callcontrol.call = function(destination) {
             destinationCalled = destination;
         };
         testUA.connectAndStartCall();
@@ -224,13 +239,14 @@ describe('callcontrol', function() {
         destinationCalled = '';
         testUA.connect();
         expect(destinationCalled).toEqual('');
+        testUA.disconnect();
     });
     it('destination configuration and enableConnectLocalMedia = true', function() {
         var destinationCalled = '';
         urlconfig.destination = '12345';
         sipstack.enableConnectLocalMedia = true;
         createCallControl();
-        callcontrol.callUri = function(destination) {
+        callcontrol.call = function(destination) {
             destinationCalled = destination;
         };
         testUA.connectAndStartCall();
@@ -244,6 +260,7 @@ describe('callcontrol', function() {
         destinationCalled = '';
         testUA.connect();
         expect(destinationCalled).toEqual('');
+        testUA.disconnect();
     });
 });
 
@@ -251,7 +268,6 @@ function setupModels() {
     testUA.createCore('urlconfig');
     testUA.createCore('sipstack');
     createCallControl();
-    eventbus = bdsft_client_instances.test.eventbus;
 }
 
 function createCallControl() {
@@ -259,6 +275,7 @@ function createCallControl() {
         callcontrol: require('../'),
         dialpad: require('webrtc-dialpad'),
         history: require('webrtc-history'),
-        stats: require('webrtc-stats')
+        stats: require('webrtc-stats'),
+        messages: require('webrtc-messages')
     });
 }

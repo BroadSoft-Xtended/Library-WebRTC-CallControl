@@ -16,7 +16,7 @@
 
     // callcontrol.jade compiled template
     templatizer["callcontrol"] = function tmpl_callcontrol() {
-        return '<div class="bdsft-client"><div class="callControl destination-container fadeable popup classes"><input type="text" onclick="this.focus();this.select()" class="destination"/><button title="Call History" class="historyButton"><i class="icon-clock"></i></button><hr/><div class="dialpadHolder"></div><div class="control-bar"><div class="call main-button"><a href="">Call</a></div></div></div></div>';
+        return '<div class="bdsft-webrtc"><div class="callControl destination-container fadeable popup classes"><input type="text" onclick="this.focus();this.select()" class="destination"/><button title="Call History" class="historyButton"><i class="icon-clock"></i></button><hr/><div class="dialpadHolder"></div><div class="control-bar"><div class="call main-button"><a href="">Call</a></div></div></div></div>';
     };
 
     return templatizer;
