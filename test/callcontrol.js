@@ -12,6 +12,14 @@ describe('callcontrol', function() {
         testUA.mockWebRTC();
     });
 
+    it('click callButton with empty destination', function() {
+        callcontrol.destination = '';
+        bdsft_client_instances.test.history.persistCall(testUA.historyRtcSession('mydestination'))
+        testUA.connect();
+        callcontrolview.call.trigger("click");
+        expect(callcontrol.destination).toEqual('mydestination');
+        testUA.disconnect();
+    });
     it('with audioOnly', function() {
         urlconfig.view = 'audioOnly';
         expect(callcontrol.classes.indexOf('audioOnly')).toNotEqual(-1);
