@@ -1,24 +1,18 @@
-var jsdom = require('mocha-jsdom');
-expect = require('expect');
-jsdom({});
-
+test = require('../node_modules/webrtc-sipstack/test/includes/common')(require('../node_modules/webrtc-core/test/includes/common'));
 describe('callcontrol', function() {
-
     before(function() {
-        core = require('webrtc-core');
-        testUA = core.testUA;
-        testUA.setupLocalStorage();
+        test.setupLocalStorage();
         setupModels();
-        testUA.mockWebRTC();
+        core = require('webrtc-core');
     });
 
     it('click callButton with empty destination', function() {
         callcontrol.destination = '';
-        bdsft_client_instances.test.history.persistCall(testUA.historyRtcSession('mydestination'))
-        testUA.connect();
+        bdsft_client_instances.test.history.persistCall(test.historyRtcSession('mydestination'))
+        test.connect();
         callcontrolview.call.trigger("click");
         expect(callcontrol.destination).toEqual('mydestination');
-        testUA.disconnect();
+        test.disconnect();
     });
     it('with audioOnly', function() {
         urlconfig.view = 'audioOnly';
@@ -28,13 +22,13 @@ describe('callcontrol', function() {
         callcontrol.enableCallControl = true;
         callcontrol.visible = true;
         expect(callcontrol.classes.indexOf('callcontrol-shown')).toNotEqual(-1);
-        testUA.isVisible(callcontrolview.view.find('.classes:first'), true);
+        test.isVisible(callcontrolview.view.find('.classes:first'), true);
         callcontrol.visible = false;
-        testUA.isVisible(callcontrolview.view.find('.classes:first'), false);
+        test.isVisible(callcontrolview.view.find('.classes:first'), false);
     });
     it('call if enter pressed on destination input', function() {
         var called = false;
-        testUA.connect();
+        test.connect();
         sipstack.ua.isConnected = function() {
             return true;
         };
@@ -50,39 +44,33 @@ describe('callcontrol', function() {
     });
     it('call and press enter on destination input', function() {
         var called = false;
-        testUA.connectAndStartCall();
+        test.connectAndStartCall();
         expect(sipstack.getCallState()).toEqual(core.constants.STATE_STARTED);
         sipstack.ua.call = function(destination) {
             called = true;
-            return testUA.outgoingSession();
         };
         var event = core.utils.createEvent("keypress");
         event.keyCode = 13;
         callcontrolview.destination.val("1000@domain.to");
         callcontrolview.destination.trigger(event);
         expect(!called).toExist();
-        testUA.endCall();
+        test.endCall();
     });
     it('click callButton twice', function() {
         var called = false;
-        testUA.connect();
+        test.connect();
 
-        sipstack.ua.call = function(destination) {
+        eventbus.on('calling', function(){
             called = true;
-            var session = testUA.outgoingSession();
-            sipstack.ua.emit('newRTCSession', sipstack.ua, {
-                session: session
-            });
-            return session;
-        };
+            sipstack.callState = 'calling';
+        });
         callcontrolview.destination.val("1000@domain.to");
         callcontrolview.call.trigger("click");
-        expect(called).toExist();
+        expect(called).toEqual(true);
         called = false;
         callcontrolview.call.trigger("click");
-        expect(!called).toExist();
-        sipstack.terminateSessions();
-        testUA.disconnect();
+        expect(called).toEqual(false);
+        test.disconnect();
     });
     it('destination:', function() {
         sipstack.enableConnectLocalMedia = true;
@@ -90,23 +78,19 @@ describe('callcontrol', function() {
         location.search = '?destination=8323303810';
         setupModels();
         var calledDestination = '';
-        sipstack.ua.call = function(destination) {
-            calledDestination = destination;
-            return testUA.outgoingSession();
-        };
-        sipstack.ua.getUserMedia = function(options, success, failure, force) {
-            success();
-        };
-
-        testUA.connect();
+        eventbus.on('calling', function(e){
+            calledDestination = e.destination;
+        });
+        test.connect();
+        eventbus.userMediaUpdated();
         expect(calledDestination).toEqual("sip:8323303810@broadsoftlabs.com");
-        testUA.disconnect();
+        test.disconnect();
     });
     it('WRTC-15 : strip non alphanumeric characters from destination', function() {
         callcontrol.destination = '1234567890˙';
         expect(callcontrol.destination).toEqual('1234567890');
 
-        testUA.val(callcontrolview.destination, '234567890˙');
+        test.val(callcontrolview.destination, '234567890˙');
         expect(callcontrolview.destination.val()).toEqual('234567890');
         expect(callcontrol.destination).toEqual('234567890');
     });
@@ -119,7 +103,7 @@ describe('callcontrol', function() {
             sentTones = '';
         sipstack.ua.call = function(destination) {
             calledDestination = destination;
-            return testUA.outgoingSession();
+            return test.outgoingSession();
         };
         sipstack.sendDTMF = function(tones) {
             sentTones = tones;
@@ -128,17 +112,17 @@ describe('callcontrol', function() {
             success();
         };
 
-        testUA.connect();
+        test.connect();
         expect(calledDestination).toEqual("sip:8323303810@broadsoftlabs.com");
 
-        var session = testUA.startCall();
+        var session = test.startCall();
         expect(sentTones).toEqual(",,123132");
 
         sentTones = '';
 
-        testUA.reconnectCall(session);
+        test.reconnectCall(session);
         expect(sentTones).toEqual("", "Should NOT send the dtmf again");
-        testUA.disconnect();
+        test.disconnect();
     });
     it('WEBRTC-35 : destination with dtmf tones and #', function() {
         sipstack.enableConnectLocalMedia = true;
@@ -149,7 +133,7 @@ describe('callcontrol', function() {
             sentTones = '';
         sipstack.ua.call = function(destination) {
             calledDestination = destination;
-            return testUA.outgoingSession();
+            return test.outgoingSession();
         };
         sipstack.sendDTMF = function(tones) {
             sentTones = tones;
@@ -158,12 +142,12 @@ describe('callcontrol', function() {
             success();
         };
 
-        testUA.connect();
+        test.connect();
         expect(calledDestination).toEqual("sip:8323303810@broadsoftlabs.com");
 
-        testUA.startCall();
+        test.startCall();
         expect(sentTones).toEqual(",,123132#");
-        testUA.disconnect();
+        test.disconnect();
     });
     it('WEBRTC-35 : destination with dtmf tones and domain', function() {
         sipstack.enableConnectLocalMedia = true;
@@ -174,7 +158,7 @@ describe('callcontrol', function() {
             sentTones = '';
         sipstack.ua.call = function(destination) {
             calledDestination = destination;
-            return testUA.outgoingSession();
+            return test.outgoingSession();
         };
         sipstack.sendDTMF = function(tones) {
             sentTones = tones;
@@ -183,13 +167,13 @@ describe('callcontrol', function() {
             success();
         };
 
-        testUA.connect();
+        test.connect();
         expect(calledDestination).toEqual("sip:8323303810@some.domain");
 
-        testUA.startCall();
+        test.startCall();
         expect(sentTones).toEqual(",,123132");
-        testUA.endCall();
-        testUA.disconnect();
+        test.endCall();
+        test.disconnect();
     });
     it('validateDestination', function() {
         callcontrol.allowOutside = true;
@@ -210,12 +194,12 @@ describe('callcontrol', function() {
         sipstack.ua.isConnected = function() {
             return true;
         }
-        testUA.connect();
+        test.connect();
         callcontrol.visible = true;
-        testUA.failCall();
+        test.failCall();
         expect(sipstack.getCallState()).toEqual("connected");
-        testUA.isVisible(callcontrolview.call, true);
-        testUA.disconnect();
+        test.isVisible(callcontrolview.call, true);
+        test.disconnect();
     });
     it('hangup on calling', function() {
         sipstack.ua.isConnected = function() {
@@ -223,10 +207,10 @@ describe('callcontrol', function() {
         }
         callcontrol.visible = true;
         callcontrol.call("1000@webrtc.domain.to");
-        testUA.newCall();
+        test.newCall();
         expect(sipstack.getCallState()).toEqual("calling");
-        testUA.isVisible(callcontrolview.call, false);
-        testUA.disconnect();
+        test.isVisible(callcontrolview.call, false);
+        test.disconnect();
     });
     it('destination configuration and enableConnectLocalMedia = false', function() {
         var destinationCalled = '';
@@ -236,18 +220,18 @@ describe('callcontrol', function() {
         callcontrol.call = function(destination) {
             destinationCalled = destination;
         };
-        testUA.connectAndStartCall();
+        test.connectAndStartCall();
         sipstack.ua.isConnected = function() {
             return true;
         };
         expect(destinationCalled).toEqual('12345');
-        testUA.endCall();
+        test.endCall();
 
         // trigger connect again to verify destination is only called once
         destinationCalled = '';
-        testUA.connect();
+        test.connect();
         expect(destinationCalled).toEqual('');
-        testUA.disconnect();
+        test.disconnect();
     });
     it('destination configuration and enableConnectLocalMedia = true', function() {
         var destinationCalled = '';
@@ -257,31 +241,33 @@ describe('callcontrol', function() {
         callcontrol.call = function(destination) {
             destinationCalled = destination;
         };
-        testUA.connectAndStartCall();
+        test.connectAndStartCall();
         sipstack.ua.isConnected = function() {
             return true;
         };
         expect(destinationCalled).toEqual('12345');
-        testUA.endCall();
+        test.endCall();
 
         // trigger connect again to verify destination is only called once
         destinationCalled = '';
-        testUA.connect();
+        test.connect();
         expect(destinationCalled).toEqual('');
-        testUA.disconnect();
+        test.disconnect();
     });
 });
 
 function setupModels() {
-    testUA.createCore('urlconfig');
-    testUA.createModelAndView('sipstack', {
+    test.createCore('urlconfig');
+    test.createModelAndView('sipstack', {
         sipstack: require('webrtc-sipstack')
     });
+    eventbus = bdsft_client_instances.test.eventbus;
+
     createCallControl();
 }
 
 function createCallControl() {
-    return testUA.createModelAndView('callcontrol', {
+    return test.createModelAndView('callcontrol', {
         callcontrol: require('../'),
         dialpad: require('webrtc-dialpad'),
         history: require('webrtc-history'),
