@@ -274,7 +274,9 @@ describe('callcontrol', function() {
 
 function setupModels() {
     testUA.createCore('urlconfig');
-    testUA.createCore('sipstack');
+    testUA.createModelAndView('sipstack', {
+        sipstack: require('webrtc-sipstack')
+    });
     createCallControl();
 }
 
@@ -284,6 +286,8 @@ function createCallControl() {
         dialpad: require('webrtc-dialpad'),
         history: require('webrtc-history'),
         stats: require('webrtc-stats'),
-        messages: require('webrtc-messages')
+        messages: require('webrtc-messages'),
+        sipstack: require('webrtc-sipstack'),
+        sound: require('webrtc-sound')
     });
 }

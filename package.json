@@ -14,6 +14,8 @@
     "webrtc-history": "git+ssh://git.broadsoftlabs.net:7922/wrtc/history.git",
     "webrtc-stats": "git+ssh://git.broadsoftlabs.net:7922/wrtc/stats.git",
     "webrtc-messages": "git+ssh://git.broadsoftlabs.net:7922/wrtc/messages.git",
+    "webrtc-sipstack": "git+ssh://git.broadsoftlabs.net:7922/wrtc/sipstack.git",
+    "webrtc-sound": "git+ssh://git.broadsoftlabs.net:7922/wrtc/sound.git",
     "templatizer": "1.2.1",
     "mocha": "2.1.0",
     "jsdom": "3.1.0",
