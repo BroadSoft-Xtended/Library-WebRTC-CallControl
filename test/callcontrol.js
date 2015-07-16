@@ -58,12 +58,21 @@ describe('callcontrol', function() {
         test.disconnect();
     });
     it('hide callcontrol on call started', function() {
-        var called = false;
         callcontrol.show();
         test.isVisible(callcontrolview.view.find('.classes:first'), true);
         test.connectAndStartCall();
         test.isVisible(callcontrolview.view.find('.classes:first'), false);
         test.endCall();
+        test.disconnect();
+    });
+    it('digit during call and remove on ended', function() {
+        callcontrol.destination = '12345';
+        var session = test.connectAndStartCall();
+        session.sendDTMF = function(){console.log('sendDTMF')};
+        eventbus.digit('1', false);
+        expect(callcontrol.destination).toEqual('123451');
+        test.endCall();
+        expect(callcontrol.destination).toEqual('12345');
         test.disconnect();
     });
     it('click callButton twice', function() {
