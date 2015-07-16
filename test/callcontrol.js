@@ -55,6 +55,16 @@ describe('callcontrol', function() {
         callcontrolview.destination.trigger(event);
         expect(!called).toExist();
         test.endCall();
+        test.disconnect();
+    });
+    it('hide callcontrol on call started', function() {
+        var called = false;
+        callcontrol.show();
+        test.isVisible(callcontrolview.view.find('.classes:first'), true);
+        test.connectAndStartCall();
+        test.isVisible(callcontrolview.view.find('.classes:first'), false);
+        test.endCall();
+        test.disconnect();
     });
     it('click callButton twice', function() {
         var called = false;
