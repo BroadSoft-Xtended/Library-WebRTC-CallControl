@@ -168,6 +168,30 @@ describe('callcontrol', function() {
         expect(sentTones).toEqual(",,123132#");
         test.disconnect();
     });
+    it('WEBRTC-35 : call with dtmf tones and #', function() {
+        sipstack.enableConnectLocalMedia = true;
+        callcontrol.allowOutside = true;
+        var calledDestination = '',
+            sentTones = '';
+        sipstack.ua.call = function(destination) {
+            calledDestination = destination;
+            return test.outgoingSession();
+        };
+        sipstack.sendDTMF = function(tones) {
+            sentTones = tones;
+        };
+        sipstack.ua.getUserMedia = function(options, success, failure, force) {
+            success();
+        };
+
+        test.connect();
+        callcontrol.call('8323303810,,123132#');
+        expect(calledDestination).toEqual("sip:8323303810@broadsoftlabs.com");
+
+        test.startCall();
+        expect(sentTones).toEqual(",,123132#");
+        test.disconnect();
+    });
     it('WEBRTC-35 : destination with dtmf tones and domain', function() {
         sipstack.enableConnectLocalMedia = true;
         callcontrol.allowOutside = true;
