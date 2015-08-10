@@ -13,7 +13,8 @@ Dependencies : [DialPad](https://github.com/BroadSoft-Xtended/Library-WebRTC-Dia
 
 Element        |Type    |Description
 ---------------|--------|-----------------------------------
-call           |div     |Holds the link to trigger a call.
+call           |div     |Holds the link to trigger a video call.
+callAudio      |div     |Holds the link to trigger an audio call.
 destination    |input   |Input for the destination
 dialpadHolder  |div     |Div to hold the dialpad.
 historyButton  |button  |Button to show the history.
@@ -41,5 +42,6 @@ messageOutsideDomain     |string   |Invalid Destination  |Message when allowOuts
 
 Method             |Parameters                     |Description
 -------------------|-------------------------------|--------------------------------------------------------------------------------------------------
-call(destination)  |destination : SIP URI or PSTN eg. 13019779440 |Starts a new call to destination if destination is valid and if no call is active.
+call(destination)  |destination : SIP URI or PSTN eg. 13019779440 |Starts a new video call to destination if destination is valid and if no call is active.
+callAudio(destination)  |destination : SIP URI or PSTN eg. 13019779440 |Starts a new audio call to destination if destination is valid and if no call is active.
 pressDTMF(digit)   |digit : 0-9                    |Sends the digit as DTMF if the call is started and appends the digit to the destination property

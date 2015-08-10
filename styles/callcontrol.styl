@@ -62,7 +62,7 @@
         border-radius 14px
         width 70px
         padding 5px
-        margin 0 auto
+        margin 0 3px
       a
         color #fff
         text-decoration none
@@ -76,17 +76,14 @@
           margin-right 5px
 
     .call
-      display none
-      position absolute
+    .callAudio
       z-index 10
-      top 25px
-      left 265px
       display block
       position static
       top auto
       left auto
 
-  .callControl.audioOnly
+  .callControl.audioOnly:not(.offerToReceiveVideo)
     top 45px
     bottom auto
 
@@ -94,9 +91,12 @@
     {fadeInPopup}
     
   .callControl.calling .call,
+  .callControl.calling .callAudio,
   .callControl:not(.connected) .call,
+  .callControl:not(.connected) .callAudio,
   .callControl.enableCallControl:not(.callcontrol-shown)
     {fadeOut}
     
-  .callControl.enableCallControl.connected .call
+  .callControl.enableCallControl.connected .call,
+  .callControl.enableCallControl.connected .callAudio
     {fadeIn}
