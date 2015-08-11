@@ -1,17 +1,17 @@
 .bdsft-webrtc
   .callControl
-    padding 15px
-    background #292929
-    border 1px solid #3c3c3c
+    background #FBFBFB
+    border 1px solid #D6D6D6
     position absolute
-    bottom 40px
+    bottom 41px
     right auto
     top auto
     left 0px
     letter-spacing 5px
     z-index 100
     box-sizing content-box
-    padding-left 14px
+    padding 0
+    box-shadow none
     // display none
     // position relative
     // left 0px
@@ -34,10 +34,14 @@
       border-bottom 1px solid #3c3c3c
     input
       box-sizing border-box
-      width 171px
-      line-height 30px
-      padding-left 8px
+      width 190px
+      line-height 38px
+      padding-left 14px
       padding-right 35px
+      background #F3F3F3
+      border none
+      color #818181
+      box-shadow inset 0 -3px 0 0 #03AFEF
     .historyButton
       font-size 16px !important
       padding-top 5px
@@ -45,7 +49,7 @@
       outline none
       position absolute
       right: 10px;
-      top: 23px;
+      top: 11px;
       width: 25px;
       padding: 0;
       margin: 0;
@@ -63,6 +67,12 @@
         width 70px
         padding 5px
         margin 0 3px
+        margin-bottom 12px
+        &:first-child
+          margin-left 12px
+        &:last-child
+          margin-right 12px
+          background #03AFEF
       a
         color #fff
         text-decoration none
@@ -70,7 +80,7 @@
         width 100%
         display inline-block
         font-size 14px
-        font-weight 700
+        font-weight normal
         letter-spacing 1
         span
           margin-right 5px
