@@ -8,7 +8,7 @@ describe('callcontrol', function() {
 
     it('click callButton with empty destination', function() {
         callcontrol.destination = '';
-        bdsft_client_instances.test.history.persistCall(test.historyRtcSession('mydestination'))
+        bdsft_client_instances.test.history.history.persistCall(test.historyRtcSession('mydestination'))
         test.connect();
         callcontrolview.call.trigger("click");
         expect(callcontrol.destination).toEqual('mydestination');
@@ -304,7 +304,7 @@ function setupModels() {
     test.createModelAndView('sipstack', {
         sipstack: require('webrtc-sipstack')
     });
-    eventbus = bdsft_client_instances.test.eventbus;
+    eventbus = bdsft_client_instances.test.core.eventbus;
 
     createCallControl();
 }

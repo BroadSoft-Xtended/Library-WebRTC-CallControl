@@ -2,9 +2,7 @@
 
 Handles DMTF and outgoing call control.
 
-Model : bdsft_webrtc.default.callcontrol
-
-View : bdsft_webrtc.default.callcontrolview
+Namespace : bdsft_webrtc.default.callcontrol
 
 Dependencies : [DialPad](https://github.com/BroadSoft-Xtended/Library-WebRTC-DialPad), [History](https://github.com/BroadSoft-Xtended/Library-WebRTC-History), [Messages](https://github.com/BroadSoft-Xtended/Library-WebRTC-Messages), [SIP Stack](https://github.com/BroadSoft-Xtended/Library-WebRTC-SIPStack), [Sound](https://github.com/BroadSoft-Xtended/Library-WebRTC-Sound), [Stats](https://github.com/BroadSoft-Xtended/Library-WebRTC-Stats)
 
