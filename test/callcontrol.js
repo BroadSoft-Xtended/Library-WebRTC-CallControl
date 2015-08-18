@@ -15,8 +15,9 @@ describe('callcontrol', function() {
         test.disconnect();
     });
     it('with audioOnly', function() {
+        expect(callcontrol.classes.indexOf('sendVideo')).toNotEqual(-1);
         urlconfig.view = 'audioOnly';
-        expect(callcontrol.classes.indexOf('audioOnly')).toNotEqual(-1);
+        expect(callcontrol.classes.indexOf('sendVideo')).toEqual(-1);
     });
     it('callcontrol show and hide', function() {
         callcontrol.enableCallControl = true;
