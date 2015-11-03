@@ -1,4 +1,4 @@
-test = require('../node_modules/webrtc-sipstack/test/includes/common')(require('../node_modules/webrtc-core/test/includes/common'));
+test = require('../node_modules/webrtc-sipstack/test/includes/common')(require('../node_modules/bdsft-sdk-test/lib/common'));
 describe('callcontrol', function() {
     before(function() {
         test.setupLocalStorage();
@@ -69,7 +69,9 @@ describe('callcontrol', function() {
     it('digit during call and remove on ended', function() {
         callcontrol.destination = '12345';
         var session = test.connectAndStartCall();
-        session.sendDTMF = function(){console.log('sendDTMF')};
+        session.sendDTMF = function() {
+            console.log('sendDTMF')
+        };
         eventbus.digit('1', false);
         expect(callcontrol.destination).toEqual('123451');
         test.endCall();
@@ -80,7 +82,7 @@ describe('callcontrol', function() {
         var called = false;
         test.connect();
 
-        eventbus.on('calling', function(){
+        eventbus.on('calling', function() {
             called = true;
             sipstack.callState = 'calling';
         });
@@ -98,7 +100,7 @@ describe('callcontrol', function() {
         location.search = '?destination=8323303810';
         setupModels();
         var calledDestination = '';
-        eventbus.on('calling', function(e){
+        eventbus.on('calling', function(e) {
             calledDestination = e.destination;
         });
         test.connect();
@@ -301,13 +303,11 @@ describe('callcontrol', function() {
 });
 
 function setupModels() {
-    test.createCore('urlconfig');
-    test.createModelAndView('sipstack', {
-        sipstack: require('webrtc-sipstack')
-    });
-    eventbus = bdsft_client_instances.test.core.eventbus;
-
     createCallControl();
+    
+    eventbus = bdsft_client_instances.test.eventbus.eventbus;
+    sipstack = bdsft_client_instances.test.sipstack.sipstack;
+    urlconfig = bdsft_client_instances.test.core.urlconfig;
 }
 
 function createCallControl() {
@@ -318,6 +318,9 @@ function createCallControl() {
         stats: require('webrtc-stats'),
         messages: require('webrtc-messages'),
         sipstack: require('webrtc-sipstack'),
-        sound: require('webrtc-sound')
+        sound: require('webrtc-sound'),
+        eventbus: require('bdsft-sdk-eventbus'),
+        debug: require('bdsft-sdk-debug'),
+        core: require('webrtc-core')
     });
 }

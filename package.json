@@ -7,8 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-  },
-  "devDependencies": {
     "webrtc-core": "BroadSoft-Xtended/Library-WebRTC-Core.git",
     "webrtc-dialpad": "BroadSoft-Xtended/Library-WebRTC-DialPad.git",
     "webrtc-history": "BroadSoft-Xtended/Library-WebRTC-History.git",
@@ -16,15 +14,13 @@
     "webrtc-messages": "BroadSoft-Xtended/Library-WebRTC-Messages.git",
     "webrtc-sipstack": "BroadSoft-Xtended/Library-WebRTC-SIPStack.git",
     "webrtc-sound": "BroadSoft-Xtended/Library-WebRTC-Sound.git",
-    "templatizer": "1.2.1",
-    "mocha": "2.1.0",
-    "jsdom": "3.1.0",
-    "mocha-jsdom": "0.2.0",
-    "expect": "1.6.0",
-    "mocha-bamboo-reporter": "1.0.6",
-    "stylus": "^0.48.1",
-    "cssmin": "0.4.2",
-    "stylus-font-face": "1.0.0"
+    "bdsft-sdk-model": "BroadSoft-Xtended/Library-SDK-Model.git",
+    "bdsft-sdk-view": "BroadSoft-Xtended/Library-SDK-View.git",
+    "bdsft-sdk-eventbus": "BroadSoft-Xtended/Library-SDK-Eventbus.git",
+    "bdsft-sdk-debug": "BroadSoft-Xtended/Library-SDK-Debug.git"
+  },
+  "devDependencies": {
+    "bdsft-sdk-test": "BroadSoft-Xtended/Library-SDK-Test.git"
   },
   "repository": {
     "type": "git",
