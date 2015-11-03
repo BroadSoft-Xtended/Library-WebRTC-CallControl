@@ -303,11 +303,14 @@ describe('callcontrol', function() {
 });
 
 function setupModels() {
+    test.createModelAndView('core', {
+        core: require('webrtc-core')
+    }, 'urlconfig')
+
     createCallControl();
     
     eventbus = bdsft_client_instances.test.eventbus.eventbus;
     sipstack = bdsft_client_instances.test.sipstack.sipstack;
-    urlconfig = bdsft_client_instances.test.core.urlconfig;
 }
 
 function createCallControl() {
