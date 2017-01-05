@@ -7,24 +7,24 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "webrtc-core": "BroadSoft-Xtended/Library-WebRTC-Core.git",
-    "webrtc-dialpad": "BroadSoft-Xtended/Library-WebRTC-DialPad.git",
-    "webrtc-history": "BroadSoft-Xtended/Library-WebRTC-History.git",
-    "webrtc-stats": "BroadSoft-Xtended/Library-WebRTC-Stats.git",
-    "webrtc-messages": "BroadSoft-Xtended/Library-WebRTC-Messages.git",
-    "webrtc-sipstack": "BroadSoft-Xtended/Library-WebRTC-SIPStack.git",
-    "webrtc-sound": "BroadSoft-Xtended/Library-WebRTC-Sound.git",
-    "bdsft-sdk-model": "BroadSoft-Xtended/Library-SDK-Model.git",
-    "bdsft-sdk-view": "BroadSoft-Xtended/Library-SDK-View.git",
-    "bdsft-sdk-eventbus": "BroadSoft-Xtended/Library-SDK-Eventbus.git",
-    "bdsft-sdk-debug": "BroadSoft-Xtended/Library-SDK-Debug.git"
+    "webrtc-core": "BroadSoft-Xtended/Library-WebRTC-Core",
+    "webrtc-dialpad": "BroadSoft-Xtended/Library-WebRTC-DialPad",
+    "webrtc-history": "BroadSoft-Xtended/Library-WebRTC-History",
+    "webrtc-stats": "BroadSoft-Xtended/Library-WebRTC-Stats",
+    "webrtc-messages": "BroadSoft-Xtended/Library-WebRTC-Messages",
+    "webrtc-sipstack": "BroadSoft-Xtended/Library-WebRTC-SIPStack",
+    "webrtc-sound": "BroadSoft-Xtended/Library-WebRTC-Sound",
+    "bdsft-sdk-model": "BroadSoft-Xtended/Library-SDK-Model",
+    "bdsft-sdk-view": "BroadSoft-Xtended/Library-SDK-View",
+    "bdsft-sdk-eventbus": "BroadSoft-Xtended/Library-SDK-Eventbus",
+    "bdsft-sdk-debug": "BroadSoft-Xtended/Library-SDK-Debug"
   },
   "devDependencies": {
-    "bdsft-sdk-test": "BroadSoft-Xtended/Library-SDK-Test.git"
+    "bdsft-sdk-test": "BroadSoft-Xtended/Library-SDK-Test"
   },
   "repository": {
     "type": "git",
-    "url": "ssh://git@github.com:BroadSoft-Xtended/Library-WebRTC-CallControl.git"
+    "url": "ssh://git@github.com:BroadSoft-Xtended/Library-WebRTC-CallControl"
   },
   "author": "Dominik Steiner",
   "license": "ISC"
